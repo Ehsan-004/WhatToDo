@@ -51,6 +51,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# AUTH_USER_MODEL = 'appuser.AppUser'
+
+APPEND_SLASH = True
+
 ROOT_URLCONF = 'WhatToDo.urls'
 
 TEMPLATES = [
@@ -58,6 +63,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'task/templates',
+            BASE_DIR / 'appuser/templates',
+            BASE_DIR / 'templates'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -104,6 +111,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+LOGIN_REDIRECT_URL = ''
+LOGOUT_REDIRECT_URL = '/login/'
+PASSWORD_CHANGE_REDIRECT_URL = '/login/'
+
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -119,9 +134,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATIC_ROOT = BASE_DIR / 'static'
+
 STATIC_FILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'task/static',
+    BASE_DIR / 'appuser/static',
+    'static',
     'task/static',
+    'appuser/static',
 ]
 
 # Default primary key field type

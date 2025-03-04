@@ -1,4 +1,10 @@
 from django.db import models
+from appuser.models import AppUser
+
+
+class TaskManager(models.Manager):
+    def all_user_tasks(self, user):
+        return self.filter(user=user)
 
 
 class Task(models.Model):
@@ -14,6 +20,7 @@ class Task(models.Model):
         (3, "High"),
     ]
 
+    user = models.ForeignKey(AppUser, on_delete=models.CASCADE, related_name='tasks', blank=True, null=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=1)
@@ -21,6 +28,9 @@ class Task(models.Model):
     create_date = models.DateField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deadline_date = models.DateField(blank=True, null=True)
+    
+    manage = TaskManager()
+    objects = models.Manager()
 
     def __str__(self):
         return self.name

@@ -1,0 +1,45 @@
+{% extends 'template.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Create a New Task</h2>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="name" class="form-label">Task Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" id="status" name="status">
+                <option value="1">To Do</option>
+                <option value="2">In Progress</option>
+                <option value="3">Done</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="priority" class="form-label">Priority</label>
+            <select class="form-select" id="priority" name="priority">
+                <option value="1">Low</option>
+                <option value="2" selected>Medium</option>
+                <option value="3">High</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="deadline_date" class="form-label">Deadline Date</label>
+            <input type="date" class="form-control" id="deadline_date" name="deadline_date">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Task</button>
+    </form>
+</div>
+{% endblock %}
