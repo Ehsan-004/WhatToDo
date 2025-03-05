@@ -34,6 +34,9 @@ class RegisterView(View):
 
 class CustomLoginView(View):
     def get(self, request):
+        if request.user and request.user.is_authenticated:
+            print("user is logged in already")
+            return redirect(reverse('home:index'))
         return render(request, 'sign-in.html')
 
     def post(self, request):

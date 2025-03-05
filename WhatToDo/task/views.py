@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 from .models import Task, SubTask
@@ -7,8 +7,9 @@ from appuser.models import AppUser
 
 class IndexView(View):
     def get(self, request):
-        # if request.user or request.user.is_authenticated:
-        #     return redirect(reverse('user:login'))
+        if request.user and not request.user.is_authenticated:
+            print("user not logged in so I redirect him to login page")
+            return redirect(reverse('user:login'))
         user = request.user
         appuser = AppUser.objects.filter(user=user).first()
         tasks = Task.manage.all_user_tasks(appuser)
@@ -25,6 +26,15 @@ class ProfileView(View):
         appuser = AppUser.objects.filter(user=user).first()
         
         return render(request, "profile.html")
+    
+
+class SubTasksView(View):
+    def get(self, request, task_id):
+        task = get_object_or_404(Task, id=task_id)
+        sub_tasks = SubTask.objects.filter(main_task=task)
+
+        context={'sub_tasks': list(sub_tasks), 'task_name': task.name}
+        return render(request, "sub_tasks.html", context=context)
 
 
 class TaskCreateView(View):
